@@ -4,26 +4,22 @@
 
 int main(void)
 {
-    // 첫 번째 판정용 변수들 (아래에서 한번 쓰고 초기화됨)
-    int strike = 0;   // 두 번째 체크용 strike
-    int ball_count = 0;    // 두 번째 체크용 ball count
-    int out_count = 0;     // 두 번째 체크용 out count
-   
-    int ball[3];      // 랜덤으로 생성한 0~9의 서로 다른 3개 숫자 저장
-    srand(time(NULL));   // 랜덤 시드 설정
+    int ball[3];        // 랜덤 숫자 3개
+    int input[3];       // 사용자 입력 3개
 
-    // 3개의 서로 다른 숫자가 나올 때까지 반복
+    srand(time(NULL));
+
+    // 서로 다른 3개의 숫자 생성
     do {
         ball[0] = rand() % 10;
         ball[1] = rand() % 10;
         ball[2] = rand() % 10;
     } while (ball[0] == ball[1] || ball[0] == ball[2] || ball[1] == ball[2]);
 
-    // 정답 숫자 출력
+    // 정답 출력 (디버깅용)
     printf("baseball : %d %d %d\n", ball[0], ball[1], ball[2]);
 
-    // 사용자 입력 3개 받기
-    int input[3];
+    // 사용자 입력
     printf("Enter the first number: ");
     scanf("%d", &input[0]);
 
@@ -33,71 +29,38 @@ int main(void)
     printf("Enter the third number: ");
     scanf("%d", &input[2]);
 
-    // 입력값 출력
-    printf("input : %d %d %d\n", input[0], input[1], input[2]) ;
+    printf("input : %d %d %d\n", input[0], input[1], input[2]);
 
-    // 첫 번째 방식의 판정용 변수
-    int strike_count = 0;
-    int ball_count = 0 ;
-    int out_count = 3 ;  // 기본적으로 전부 Out이라고 가정 후 strike/ball 나오면 감소
+    // A버전 판정 변수
+    int strike_count = 0;  
+    int ball_count = 0;    
+    int out_count = 3;     // 기본을 Out 3개로 시작 후 strike/ball이 나오면 줄임
 
-    // 첫 번째 숫자(ball[0])에 대한 판정
-    if( ball[0] == input[0] ) {      // 자리와 숫자가 같으면 strike
-        strike_count++;
-        out_count--;
-    }
-    
-    if( ball[0] == input[1] ) {      // 자리 다르고 숫자만 같으면 ball
-        ball_count++;
-        out_count--;
-    }
-   
-    if( ball[0] == input[2] ) {      // 동일
-        ball_count++;
-        out_count--;
-    }
+    // ball[0] 판정
+    if (ball[0] == input[0]) { strike_count++; out_count--; }
+    else if (ball[0] == input[1] || ball[0] == input[2]) { ball_count++; out_count--; }
 
-    // 입력 3개가 모두 일치할 경우 → 홈런
-    if( ball[0] == input[0] && ball[1] == input[1] && ball[2] == input[2] )
+    // ball[1] 판정
+    if (ball[1] == input[1]) { strike_count++; out_count--; }
+    else if (ball[1] == input[0] || ball[1] == input[2]) { ball_count++; out_count--; }
+
+    // ball[2] 판정
+    if (ball[2] == input[2]) { strike_count++; out_count--; }
+    else if (ball[2] == input[0] || ball[2] == input[1]) { ball_count++; out_count--; }
+
+    // 홈런 판정
+    if (strike_count == 3)
     {
-        printf("Home Run~\n") ;
+        printf("Home Run~\n");
     }
     else
     {
-        // 첫 번째 방식의 판정 결과 출력
-        printf("%d Strike, %d Ball, %d Out\n", strike_count, ball_count, out_count) ;
+        printf("%d Strike, %d Ball, %d Out\n",
+               strike_count, ball_count, out_count);
     }
 
-    // 두 번째 판정을 위해 초기화
-    strike = 0;
-    ballc = 0;
-
-    // 두 번째 방식의 strike 체크
-    if (input[0] == ball[0]) strike++;
-    if (input[1] == ball[1]) strike++;
-    if (input[2] == ball[2]) strike++;
-
-    // 두 번째 방식의 ball 체크
-    // (자리 다르고 값만 같은 경우 모두 카운트)
-    if (input[0] == ball[1]) ballc++;
-    if (input[0] == ball[2]) ballc++;
-    if (input[1] == ball[0]) ballc++;
-    if (input[1] == ball[2]) ballc++;
-    if (input[2] == ball[0]) ballc++;
-    if (input[2] == ball[1]) ballc++;
-
-    // 두 번째 방식의 out 계산
-    outc = 3 - (strike + ballc);
-
-    // 두 번째 판정 결과 출력
-    if (strike == 3) {
-        printf("\n[Second Check] 3 Strike! Home Run!!!\n");
-    } else {
-        printf("\n[Second Check] %d Strike, %d Ball, %d Out\n", strike, ballc, outc);
-    }
-  
     // 정답 공개
-    printf("answer": %d %d %d\n", ball[0], ball[1], ball[2]);
+    printf("answer: %d %d %d\n", ball[0], ball[1], ball[2]);
 
     return 0;
 }
