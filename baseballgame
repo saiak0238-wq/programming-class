@@ -1,0 +1,66 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+int main(void)
+{
+    int ball[3];        // 랜덤 숫자 3개
+    int input[3];       // 사용자 입력 3개
+
+    srand(time(NULL));
+
+    // 서로 다른 3개의 숫자 생성
+    do {
+        ball[0] = rand() % 10;
+        ball[1] = rand() % 10;
+        ball[2] = rand() % 10;
+    } while (ball[0] == ball[1] || ball[0] == ball[2] || ball[1] == ball[2]);
+
+    // 정답 출력 (디버깅용)
+    printf("baseball : %d %d %d\n", ball[0], ball[1], ball[2]);
+
+    // 사용자 입력
+    printf("Enter the first number: ");
+    scanf("%d", &input[0]);
+
+    printf("Enter the second number: ");
+    scanf("%d", &input[1]);
+
+    printf("Enter the third number: ");
+    scanf("%d", &input[2]);
+
+    printf("input : %d %d %d\n", input[0], input[1], input[2]);
+
+    // A버전 판정 변수
+    int strike_count = 0;  
+    int ball_count = 0;    
+    int out_count = 3;     // 기본을 Out 3개로 시작 후 strike/ball이 나오면 줄임
+
+    // ball[0] 판정
+    if (ball[0] == input[0]) { strike_count++; out_count--; }
+    else if (ball[0] == input[1] || ball[0] == input[2]) { ball_count++; out_count--; }
+
+    // ball[1] 판정
+    if (ball[1] == input[1]) { strike_count++; out_count--; }
+    else if (ball[1] == input[0] || ball[1] == input[2]) { ball_count++; out_count--; }
+
+    // ball[2] 판정
+    if (ball[2] == input[2]) { strike_count++; out_count--; }
+    else if (ball[2] == input[0] || ball[2] == input[1]) { ball_count++; out_count--; }
+
+    // 홈런 판정
+    if (strike_count == 3)
+    {
+        printf("Home Run~\n");
+    }
+    else
+    {
+        printf("%d Strike, %d Ball, %d Out\n",
+               strike_count, ball_count, out_count);
+    }
+
+    // 정답 공개
+    printf("answer: %d %d %d\n", ball[0], ball[1], ball[2]);
+
+    return 0;
+}
