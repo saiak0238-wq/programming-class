@@ -31,7 +31,7 @@ int main(void)
 
     printf("input : %d %d %d\n", input[0], input[1], input[2]);
 
-    // A버전 판정 변수
+    // 판정 변수
     int strike_count = 0;  
     int ball_count = 0;    
     int out_count = 3;     // 기본을 Out 3개로 시작 후 strike/ball이 나오면 줄임
