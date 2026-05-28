@@ -1,0 +1,35 @@
+unsigned long t1 ;
+unsigned long t2 ;
+void Echo ( void )
+{
+int value = digitalRead(2) ;
+if (value == 1)  // t1
+ {
+t1 = micros() ;
+ }
+else //t2
+ {
+t2 = micros() ;
+unsigned long t = t2 - t1 ;
+Serial.println(t); 
+ }
+}
+
+void setup()
+{
+  pinMode(6, OUTPUT) ;
+  pinMode(2, INPUT) ;
+  attachInterrupt (0 , Echo, CHANGE) ;
+  
+  Serial.begin(9600);
+  delay(100) ;
+ }
+
+void loop()
+{
+ digitalWrite(6, 0) ;
+ digitalWrite(6, 1) ;
+delayMicroseconds(10);
+ digitalWrite(6, 0) ; 
+ 
+}  
