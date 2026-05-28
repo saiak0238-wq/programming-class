@@ -9,7 +9,7 @@ void loop()
   int value = analogRead(A0);
   Serial.println(value);
   
-  int servo = 500 + ((1023/200) * value) ;
+  int servo = 500 + (long)((1023/200) * value) ;
 
   digitalWrite(8, 1);
   delayMicroseconds(servo);
