@@ -1,19 +1,15 @@
 void setup()
 {
-  pinMode(8, OUTPUT);
+  pinMode(9, OUTPUT);
   Serial.begin(9600);
 }
 
 void loop()
 {
-  int value = analogRead(A0);
-  Serial.println(value);
+  int analog = analogRead(A1);
+  Serial.println(analog);
   
-  int servo = 500 + (long)((1023/200) * value) ;
+  int duty = (float)255/(float)1023 + (float)analog ;
 
-  digitalWrite(8, 1);
-  delayMicroseconds(servo);
-
-  digitalWrite(8, 0);
-  delayMicroseconds(20000 - servo);
+ analogWrite(9, duty) ;
 }
