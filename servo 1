@@ -9,7 +9,7 @@ void loop()
   int analog = analogRead(A1);
   Serial.println(analog);
   
-  int duty = (float)255/(float)1023 + (float)analog ;
+  int duty = 255.0/1023.0 + (float)analog ;
 
  analogWrite(9, duty) ;
 }
