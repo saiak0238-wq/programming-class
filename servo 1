@@ -1,0 +1,19 @@
+void setup()
+{
+  pinMode(8, OUTPUT);
+  Serial.begin(9600);
+}
+
+void loop()
+{
+  int value = analogRead(A0);
+  Serial.println(value);
+  
+  int servo = 500 + (value * 2000 / 1023) ;
+
+  digitalWrite(8, 1);
+  delayMicroseconds(servo);
+
+  digitalWrite(8, 0);
+  delayMicroseconds(20000 - servo);
+}
